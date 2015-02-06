@@ -1,5 +1,9 @@
 # Helenus
 
+
+### This driver uses the old Thrift protocol, if you are using Cassandra 1.2 or higher and you are using CQL, please consider using [node-cassandra-cql](https://github.com/jorgebay/node-cassandra-cql). While I will continue to fix bugs with this driver, feature development is frozen as many new features coming out will not be supported by Thrift.
+
+
   NodeJS Bindings for Cassandra
 
   Currently the driver has full CQL support and a growing support for thrift (non-cql) commands.
@@ -99,7 +103,7 @@ If you do not want to use CQL, you can make calls using the thrift driver
 
         //get what we just put in
         //the driver will return a helenus.Row object just like CQL
-        cf.get('foo', {consistency:helenus.ConsistencyLevel.ONE} function(err, row){
+        cf.get('foo', {consistency:helenus.ConsistencyLevel.ONE}, function(err, row){
           if(err){
             throw(err);
           }

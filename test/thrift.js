@@ -5,6 +5,12 @@ var config = require('./helpers/thrift'),
     Helenus, conn, ks, cf_standard, row_standard, cf_composite, cf_counter,
     cf_reversed, cf_composite_nested_reversed, cf_range;
 
+var has_microtime = false;
+try {
+  require('microtime');
+  has_microtime = true;
+} catch(e) { }
+
 module.exports = {
   'setUp':function(test, assert){
     Helenus = require('helenus');
@@ -44,15 +50,15 @@ module.exports = {
     // Add error handler to avoid uncaught exception.
     badConn.on('error', function (err) { assert.isDefined(err); });
     badConn.connect(function(err, keyspace) {
-       assert.isDefined(err);
-       badConn.createKeyspace(config.keyspace, function(err){
+      assert.isDefined(err);
+      badConn.createKeyspace(config.keyspace, function(err){
+        assert.isDefined(err);
+        badConn.dropKeyspace(config.keyspace, function(err){
           assert.isDefined(err);
-          badConn.dropKeyspace(config.keyspace, function(err){
-            assert.isDefined(err);
-            badConn.close();
-            test.finish();
-          });
-       });
+          badConn.close();
+          test.finish();
+        });
+      });
     });
   },
 
@@ -208,6 +214,12 @@ module.exports = {
   },
 
   'test cf.insert default microsecond timestamp':function(test, assert){
+
+    if (!has_microtime) {
+      test.finish();
+      return;
+    }
+
     //try to tease out same-ms collision with 50 attempts
     var finished = 0, ok = true;
     var callback = function() {
@@ -833,12 +845,17 @@ module.exports = {
       cf_standard.get(config.standard_row_key, function(err, row){
         assert.ifError(err);
         assert.ok(row.count === 3);
+        test.finish();
       });
-      test.finish();
     });
   },
 
   'test standard cf remove default microsecond timestamp':function(test, assert) {
+    if (!has_microtime) {
+      test.finish();
+      return;
+    }
+
     //try to tease out same-ms collision with 50 attempts
     var finished = 0, ok = true;
     var callback = function() {
@@ -883,8 +900,8 @@ module.exports = {
       cf_standard.get(key, function(err, row){
         assert.ifError(err);
         assert.ok(row.count === 0);
+        test.finish();
       });
-      test.finish();
     });
   },
 
@@ -894,8 +911,8 @@ module.exports = {
       cf_standard.get(config.standard_row_key, function(err, row){
         assert.ifError(err);
         assert.ok(row.count === 0);
+        test.finish();
       });
-      test.finish();
     });
   },
 
