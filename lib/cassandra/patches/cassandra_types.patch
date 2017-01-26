@@ -1,5 +1,5 @@
---- gen-nodejs/cassandra_types.js	2012-04-02 17:03:15.000000000 +0200
-+++ cassandra_types.js	2012-04-02 16:55:40.000000000 +0200
+--- gen-nodejs/cassandra_types.js	2017-01-26 13:47:12.381570812 -0800
++++ cassandra_types.js	2017-01-26 13:49:07.321828457 -0800
 @@ -3,7 +3,7 @@
  //
  // DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
@@ -9,7 +9,7 @@
  var ttypes = module.exports = {};
  ttypes.ConsistencyLevel = {
  'ONE' : 1,
-@@ -108,22 +108,22 @@
+@@ -113,22 +113,22 @@
  
  Column.prototype.write = function(output) {
    output.writeStructBegin('Column');
@@ -36,7 +36,7 @@
      output.writeFieldBegin('ttl', Thrift.Type.I32, 4);
      output.writeI32(this.ttl);
      output.writeFieldEnd();
-@@ -992,22 +992,22 @@
+@@ -1051,22 +1051,22 @@
  
  SliceRange.prototype.write = function(output) {
    output.writeStructBegin('SliceRange');
@@ -63,7 +63,7 @@
      output.writeFieldBegin('count', Thrift.Type.I32, 4);
      output.writeI32(this.count);
      output.writeFieldEnd();
-@@ -1173,7 +1173,7 @@
+@@ -1232,7 +1232,7 @@
      output.writeString(this.column_name);
      output.writeFieldEnd();
    }
@@ -72,7 +72,7 @@
      output.writeFieldBegin('op', Thrift.Type.I32, 2);
      output.writeI32(this.op);
      output.writeFieldEnd();
-@@ -1278,12 +1278,12 @@
+@@ -1337,12 +1337,12 @@
      output.writeListEnd();
      output.writeFieldEnd();
    }
@@ -87,12 +87,45 @@
      output.writeFieldBegin('count', Thrift.Type.I32, 3);
      output.writeI32(this.count);
      output.writeFieldEnd();
-@@ -2216,7 +2216,7 @@
-     output.writeString(this.validation_class);
+@@ -1461,27 +1461,27 @@
+ 
+ KeyRange.prototype.write = function(output) {
+   output.writeStructBegin('KeyRange');
+-  if (this.start_key) {
++  if (this.start_key !== null) {
+     output.writeFieldBegin('start_key', Thrift.Type.STRING, 1);
+     output.writeString(this.start_key);
      output.writeFieldEnd();
    }
--  if (this.index_type) {
-+  if (this.index_type !== null) {
-     output.writeFieldBegin('index_type', Thrift.Type.I32, 3);
-     output.writeI32(this.index_type);
+-  if (this.end_key) {
++  if (this.end_key !== null) {
+     output.writeFieldBegin('end_key', Thrift.Type.STRING, 2);
+     output.writeString(this.end_key);
+     output.writeFieldEnd();
+   }
+-  if (this.start_token) {
++  if (this.start_token !== null) {
+     output.writeFieldBegin('start_token', Thrift.Type.STRING, 3);
+     output.writeString(this.start_token);
+     output.writeFieldEnd();
+   }
+-  if (this.end_token) {
++  if (this.end_token !== null) {
+     output.writeFieldBegin('end_token', Thrift.Type.STRING, 4);
+     output.writeString(this.end_token);
+     output.writeFieldEnd();
+   }
+-  if (this.row_filter) {
++  if (this.row_filter !== null) {
+     output.writeFieldBegin('row_filter', Thrift.Type.LIST, 6);
+     output.writeListBegin(Thrift.Type.STRUCT, this.row_filter.length);
+     for (var iter39 in this.row_filter)
+@@ -1495,7 +1495,7 @@
+     output.writeListEnd();
+     output.writeFieldEnd();
+   }
+-  if (this.count) {
++  if (this.count !== null) {
+     output.writeFieldBegin('count', Thrift.Type.I32, 5);
+     output.writeI32(this.count);
      output.writeFieldEnd();

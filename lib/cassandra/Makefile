@@ -1,7 +1,7 @@
 compile: Cassandra.js cassandra_types.js clean_compile
 
 gen-nodejs:
-	thrift --gen js:node cassandra.thrift
+	/tmp/pms/bin/thrift --gen js:node cassandra.thrift
 
 cassandra_types.js: gen-nodejs
 	cp gen-nodejs/cassandra_types.js .
